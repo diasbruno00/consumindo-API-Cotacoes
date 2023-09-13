@@ -8,6 +8,7 @@ const getDados = async () => {
 };
 
 const converter = async (codigo, valor) => {
+
   const cotacaoDados = await getDados();
 
   let resultado = {
@@ -29,24 +30,31 @@ const converter = async (codigo, valor) => {
   return resultado;
 };
 
-const minutos = 60 * 2 * 1000; // 2 minutos
 
-setInterval(async () => {
-  const arrayCodigos = ["USD", "EUR", "BTC"];
-  const escolhaAleatoria = parseInt(Math.random() * arrayCodigos.length);
-  const valor = Math.random() * 100;
-  const resultado = await converter(arrayCodigos[escolhaAleatoria], valor);
+const start = () => {
 
-  console.log(
-    `Moeada Brasileira: R$ ${valor.toFixed(2)}
-    Conversão para ${
-      arrayCodigos[escolhaAleatoria]
-    }: ${resultado.conversao.toFixed(2)}
-    Cotação ${arrayCodigos[escolhaAleatoria]} :  ${resultado.cotacao} \n`
-  );
-}, minutos);
+  setInterval(async () => {
+    const arrayCodigos = ["USD", "EUR", "BTC"];
+    const escolhaAleatoria = parseInt(Math.random() * arrayCodigos.length);
+    const valor = Math.random() * 100;
+    const resultado = await converter(arrayCodigos[escolhaAleatoria], valor);
+  
+    console.log(
+      `Moeada Brasileira: R$ ${valor.toFixed(2)}
+      Conversão para ${
+        arrayCodigos[escolhaAleatoria]
+      }: ${resultado.conversao}
+      Cotação ${arrayCodigos[escolhaAleatoria]} :  ${resultado.cotacao} \n`
+    );
+  }, minutos);
+  
+}
 
 const converterMoeda = (valor, cotacao) => {
-  const valorAtualizado = valor * cotacao;
+  const valorAtualizado = valor / cotacao;
   return valorAtualizado;
 };
+
+const minutos = (60 * 2) * 1000; // 2 minutos
+
+start()
